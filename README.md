@@ -13,5 +13,7 @@ sb.test.common.demo.util.InvokeDemo
 ## 3、CodeNode模块
 - 完善笔记：架构设计
 - 完善笔记：
-##  4、ebook模块
-- 
+## 4、ebook模块
+
+## 5、MIT 模块
+- todo MIT 课程推荐
