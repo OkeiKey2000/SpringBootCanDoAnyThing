@@ -1,4 +1,4 @@
-package sb.test.common;
+package sb.test.common.demo.util;
 
 import sb.test.common.pojo.User;
 
