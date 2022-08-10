@@ -1,3 +1,14 @@
 # README
-1、通过反射获取 相应的数值 sb.test.common.demo.util.InvokeDemo
-2、knife4j集成
+- 前言
+  - 1、本开源项目的意义在于对于日常开发中 接触过或者没有接触过的各种框架写一下测试demo，方便后期进行技术选型的时候能够快速相应
+  - 2、同时记录开发代码过程中学习到的一些知识点，记录可以沉淀下来的通用功能实现
+  - 3、由于目前开发过程中使用比较多的框架是SpringBoot 因此名称起名为 SpringBootCanDoAnyThing 感谢apache开源社区推出的这个脚手架极大的简化了不少开发任务
+  - 4、本项目不仅仅局限于SpringBoot 众所周知 Go在性能这方面可以吊打Java，能极大的节省运行成本，前中期的第一个大计划就是 参考《自己动手写JAVA虚拟机》感受一下GO的魅力
+  - 5、感谢JetBrains开发的工具，极大的提升了java这门语言的开发效率
+## 1、通过反射获取 相应的数值 sb.test.common.demo.util.InvokeDemo
+
+## 2、knife4j集成
+
+## 3、CodeNode模块
+- 完善笔记：架构设计
+### 
