@@ -9,11 +9,15 @@
 - 1.1、反射简单实现
 - 1.2、knife4j实现
 - 1.3、并发 todo
-
+- 1.4、SpringBoot通用模块实现
 ## 2、CodeNode模块
 - 完善笔记：SpringMVC架构分层 todo
-- 完善笔记：SpringBookt框架完善 todo
+- 完善笔记：SpringBoot框架内容完善 todo
+
 ## 3、ebook模块
 文件内容来自网络，仅用作学习交流使用，请在下载之后24h内删除
 ## 4、MIT 模块
-- todo MIT 课程推荐
+- MIT 课程推荐
+- MIT LAB
+  - MIT 6.824 Lab完成 doing
+- MIT NODE
