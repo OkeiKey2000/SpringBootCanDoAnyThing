@@ -9,15 +9,27 @@
 - 1.1、反射简单实现
 - 1.2、knife4j实现
 - 1.3、并发 todo
-- 1.4、SpringBoot通用模块实现
-## 2、CodeNode模块
+- 1.4、SpringBoot部分模块 代码 实现 todo
+## 2、CodeNote模块
 - 完善笔记：SpringMVC架构分层 todo
+  - 主要内容：
+    - SpringMVC 常用的分层架构、包含各领域功能以及常用模型
+    - 和DDD之间的联系
+    - 分层最佳实践
+    - 实战分层 
 - 完善笔记：SpringBoot框架内容完善 todo
-
+- 完善笔记：Mysql数据库内容
+  - 原理：
+    - 掘金小册 todo
+    - Mysql45讲
+  - 常见面试题：todo
+  - SQL：todo
 ## 3、ebook模块
 文件内容来自网络，仅用作学习交流使用，请在下载之后24h内删除
+
 ## 4、MIT 模块
 - MIT 课程推荐
 - MIT LAB
   - MIT 6.824 Lab完成 doing
-- MIT NODE
+- MIT NOTE
+  - MIT 6.824 Note doing
