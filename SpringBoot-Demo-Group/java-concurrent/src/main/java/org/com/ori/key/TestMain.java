@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Stopwatch;
 
+import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,11 +31,11 @@ public class TestMain {
 
 
 	static {
-		BATCH_DATA = new JSONArray();
+		BATCH_DATA = new JSONArray(new Vector());
 		res = new AtomicInteger();
 	}
 
-	private static Integer SPLIT_SIZE = 1;
+	private static Integer SPLIT_SIZE = 150;
 
 	private static AtomicInteger res;
 
@@ -44,13 +46,32 @@ public class TestMain {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		for (int i = 0; i < 10000010; i++) {
 			// 经过测试 只有在读多写少的场景下才可以使用 读写锁来进行优化同时建议使用StampedLock 来帮助进行优化 如果不是该场景 还不如使用Synchronized进行优化
-			CMS_ARTICLE_BASE_INFO_PUSH_POOL.execute(() -> pushMessageWithRWLock(new JSONObject()));// 1728
-//			CMS_ARTICLE_BASE_INFO_PUSH_POOL.execute(() -> pushMessageWithSynchronized(new JSONObject()));// 1220
+			// copyOnWriteArray数组同样只适用多读少写的情况 并且由于copyOnWriteArray的写入复制 会导致物理地址发生改变 使用synchronized将会存在并发问题
+			// 目前来看 写多读少的情况直接使用synchronized效率是最高的
+//			CMS_ARTICLE_BASE_INFO_PUSH_POOL.execute(() -> pushMessageWithRWLock(new JSONObject()));// 1728
+//			CMS_ARTICLE_BASE_INFO_PUSH_POOL.execute(() -> pushMessageWithSynchronized(new JSONObject()));// 1433
 //			CMS_ARTICLE_BASE_INFO_PUSH_POOL.execute(() -> pushMessageWithStampRWLock(new JSONObject()));// 1431
+			CMS_ARTICLE_BASE_INFO_PUSH_POOL.execute(() -> pushMessageWithCopyArray(new JSONObject()));//
 		}
 		System.out.println(res.addAndGet(BATCH_DATA.size()));
 		System.out.println(stopwatch.elapsed(TimeUnit.MILLISECONDS));
 
+	}
+
+	private static void pushMessageWithCopyArray(JSONObject jsonObject) {
+		try {
+			BATCH_DATA.add(jsonObject);
+			if (BATCH_DATA.size() >= SPLIT_SIZE) {
+				synchronized (BATCH_DATA){
+					if (BATCH_DATA.size() >= SPLIT_SIZE) {
+						res.addAndGet(BATCH_DATA.size());
+						BATCH_DATA = BATCH_DATA.fluentClear();
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	private static void pushMessageWithSynchronized(JSONObject messages) {
@@ -77,10 +98,11 @@ public class TestMain {
 				res.addAndGet(BATCH_DATA.size());
 				BATCH_DATA.fluentClear();
 			}
-		}finally {
+		} finally {
 			WLOCK.unlock();
 		}
 	}
+
 	private static void pushMessageWithStampRWLock(JSONObject message) {
 		long l = stampLock.writeLock();
 		try {
@@ -89,7 +111,7 @@ public class TestMain {
 				res.addAndGet(BATCH_DATA.size());
 				BATCH_DATA.fluentClear();
 			}
-		}finally {
+		} finally {
 			stampLock.unlock(l);
 		}
 	}
